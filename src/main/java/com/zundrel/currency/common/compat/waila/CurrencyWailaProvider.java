@@ -73,22 +73,12 @@ public class CurrencyWailaProvider implements IWailaDataProvider
 
 			currenttip.add("Shelf " + I18n.format("currency.ownername.waila") + " " + shelf.getOwnerName());
 			currenttip.add(I18n.format("currency.linked.waila") + " " + shelf.getShopControllerPos().getX() + ", " + shelf.getShopControllerPos().getY() + ", " + shelf.getShopControllerPos().getZ());
-			if (world.getBlockState(shelf.getShopControllerPos()).getBlock() instanceof BlockShopController) {
-				TileEntityShopController controller = (TileEntityShopController) world.getTileEntity(shelf.getShopControllerPos());
-				
-				currenttip.add("Controller " + I18n.format("currency.name.waila") + " " + controller.getName());
-			}
 		} else if (tile instanceof TileEntityStockCrate) {
 			TileEntityStockCrate crate = (TileEntityStockCrate) tile;
 			World world = crate.getWorld();
 			
 			currenttip.add("Stock Crate " + I18n.format("currency.ownername.waila") + " " + crate.getOwnerName());
 			currenttip.add(I18n.format("currency.linked.waila") + " " + crate.getShopControllerPos().getX() + ", " + crate.getShopControllerPos().getY() + ", " + crate.getShopControllerPos().getZ());
-			if (world.getBlockState(crate.getShopControllerPos()).getBlock() instanceof BlockShopController) {
-				TileEntityShopController controller = (TileEntityShopController) world.getTileEntity(crate.getShopControllerPos());
-				
-				currenttip.add("Controller " + I18n.format("currency.name.waila") + " " + controller.getName());
-			}
 		}
 		return currenttip;
 	}
