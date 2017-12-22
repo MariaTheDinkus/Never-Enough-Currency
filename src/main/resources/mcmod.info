@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "currency",
+  "name": "Never Enough Currency",
+  "description": "A mod containing currency similar to USD. It has ATMs, a Shop System, Wallets, and more!",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Zundrel"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
