@@ -27,10 +27,6 @@ import com.zundrel.currency.common.blocks.tiles.TileEntityShopController;
 import com.zundrel.currency.common.blocks.tiles.TileEntityStockCrate;
 import com.zundrel.currency.common.capabilities.CartCapability;
 import com.zundrel.currency.common.handlers.SoundHandler;
-import com.zundrel.currency.common.items.ItemMoneyBase;
-import com.zundrel.currency.common.items.ItemScanner;
-import com.zundrel.currency.common.network.MessageSyncCart;
-import com.zundrel.currency.common.network.PacketDispatcher;
 import com.zundrel.currency.common.utils.CurrencyUtils;
 
 public class BlockShopController extends BlockBasic implements ITileEntityProvider {
@@ -60,9 +56,6 @@ public class BlockShopController extends BlockBasic implements ITileEntityProvid
 
 			float overallAmount = 0;
 			
-			long currentTime = System.currentTimeMillis();
-			
-			System.out.println(currentTime);
 			for (BlockPos stockPos : te.storageBlocks) {
 				if (worldIn.getBlockState(stockPos).getBlock() instanceof BlockStockCrate) {
 					TileEntityStockCrate crate = (TileEntityStockCrate) worldIn.getTileEntity(stockPos);
@@ -121,8 +114,6 @@ public class BlockShopController extends BlockBasic implements ITileEntityProvid
 				}
 			}
 			
-			System.out.println(System.currentTimeMillis() - currentTime);
-			
 			if (!receivedItems) {
 				boolean cartEmpty = true;
 				
@@ -130,7 +121,6 @@ public class BlockShopController extends BlockBasic implements ITileEntityProvid
 					ItemStack cartStack = cap.getStackInSlot(i);
 					if (!cartStack.isEmpty()) {
 						cartEmpty = false;
-						System.out.println(cap.getPrices().get(i));
 						overallAmount = overallAmount + (cap.getPrices().get(i) * cartStack.getCount());
 					}
 				}

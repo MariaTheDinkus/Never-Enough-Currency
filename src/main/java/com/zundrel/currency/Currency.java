@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 import org.apache.logging.log4j.Logger;
 
@@ -70,17 +71,15 @@ public class Currency {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		logger = event.getModLog();
-
-		proxy.preInitRenderers();
-
+		proxy.preInit(event);
+		
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		proxy.initRenderers();
-
+		proxy.init(event);
+		
 		NetworkRegistry.INSTANCE.registerGuiHandler(Currency.INSTANCE, new GuiHandler());
 
 		AccountCapability.register();
@@ -88,15 +87,17 @@ public class Currency {
 
 		PacketDispatcher.registerPackets();
 
+		FMLInterModComms.sendMessage("waila", "register", "com.zundrel.currency.common.compat.waila.CurrencyWailaProvider.callbackRegister");
+		
 		GameRegistry.registerTileEntity(TileEntityShopController.class, ModInfo.MODID + ":" + "shop_controller");
 		GameRegistry.registerTileEntity(TileEntityDisplay.class, ModInfo.MODID + ":" + "display");
 		GameRegistry.registerTileEntity(TileEntityStockCrate.class, ModInfo.MODID + ":" + "stock_crate");
-
-		FMLInterModComms.sendMessage("waila", "register", "com.zundrel.currency.common.compat.waila.CurrencyWailaProvider.callbackRegister");
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		proxy.postInit(event);
+		
 		ticketList = new HashMap<ChunkPos, Integer>();
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 			@Override
@@ -105,16 +106,11 @@ public class Currency {
 			}
 		});
 	}
-
-	@EventHandler
-	public void serverLoad(FMLServerStartingEvent event) {
-
-	}
-
+	
 	public static void forceChunkLoad(World w, ChunkPos pos) {
 		if (!ticketList.containsKey(pos)) {
 			if (chunkLoaderTicket == null) {
-				chunkLoaderTicket = ForgeChunkManager.requestTicket(INSTANCE, w, Type.NORMAL);
+				chunkLoaderTicket = ForgeChunkManager.requestTicket(Currency.INSTANCE, w, Type.NORMAL);
 			}
 			ticketList.put(pos, 1);
 			ForgeChunkManager.forceChunk(chunkLoaderTicket, pos);

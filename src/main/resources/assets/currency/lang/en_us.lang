@@ -5,11 +5,12 @@ itemGroup.currency=Currency
 tile.atm.name=ATM
 tile.shop_controller.name=Shop Controller
 tile.shelf.name=Shop Shelf
+tile.table.name=Shop Table
 tile.stock_crate.name=Stock Crate
 
 # ITEMS
 item.wallet.name=Wallet
-item.scanner.name=Barcode Scanner
+item.shopping_list.name=Shopping List
 item.linking_card.name=Controller Linker
 
 item.penny.name=Penny

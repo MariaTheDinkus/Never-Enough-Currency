@@ -28,6 +28,7 @@ public class PacketDispatcher
     registerMessage(MessageSyncDrops.Handler.class, MessageSyncDrops.class, Side.SERVER);
     registerMessage(MessageSyncRemove.Handler.class, MessageSyncRemove.class, Side.SERVER);
     registerMessage(MessageSyncAdd.Handler.class, MessageSyncAdd.class, Side.SERVER);
+    registerMessage(MessageSyncClearList.Handler.class, MessageSyncClearList.class, Side.SERVER);
   }
   
   private static final void registerMessage(Class handlerClass, Class messageClass, Side side)

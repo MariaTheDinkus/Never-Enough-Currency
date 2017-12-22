@@ -20,7 +20,7 @@ public class ItemHandler
 	
 	public static Item wallet;
 	public static Item linkingCard;
-	public static Item scanner;
+	public static Item shopping_list;
 	
 	public static Item penny, nickel, dime, quarter;
 	public static Item dollarBill, fiveDollarBill, tenDollarBill, twentyDollarBill, fiftyDollarBill, hundredDollarBill;
@@ -31,7 +31,6 @@ public class ItemHandler
 		
 		wallet = register(new ItemWallet("wallet"));
 		linkingCard = register(new ItemLinkingCard("linking_card"));
-		scanner = register(new ItemScanner("scanner"));
 		
 		penny = register(new ItemMoneyBase("penny", 0.01F));
 		nickel = register(new ItemMoneyBase("nickel", 0.05F));

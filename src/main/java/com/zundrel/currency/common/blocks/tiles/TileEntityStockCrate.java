@@ -67,22 +67,22 @@ public class TileEntityStockCrate extends TileEntity implements IInventory, ITic
 //		System.out.println(amount);
 		
 		if (this.world.getTotalWorldTime() % 100 == 0) {
-			if (!world.isOutsideBuildHeight(shopControllerPos) && world.getTileEntity(shopControllerPos) instanceof TileEntityShopController) {
-				TileEntityShopController shopController = (TileEntityShopController) world.getTileEntity(shopControllerPos);
-				
-				boolean containsPos = false;
-				
-				for (BlockPos pos : shopController.storageBlocks) {
-					if (pos == this.pos) {
-						containsPos = true;
-						break;
-					}
-				}
-				
-				if (!containsPos) {
-					shopController.storageBlocks.add(this.pos);
-				}
-			}
+//			if (!world.isOutsideBuildHeight(shopControllerPos) && world.getTileEntity(shopControllerPos) instanceof TileEntityShopController) {
+//				TileEntityShopController shopController = (TileEntityShopController) world.getTileEntity(shopControllerPos);
+//				
+//				boolean containsPos = false;
+//				
+//				for (BlockPos pos : shopController.storageBlocks) {
+//					if (pos == this.pos) {
+//						containsPos = true;
+//						break;
+//					}
+//				}
+//				
+//				if (!containsPos) {
+//					shopController.storageBlocks.add(this.pos);
+//				}
+//			}
 			
 			for (ItemStack stack : inventory) {
 				if (!stack.isEmpty()) {

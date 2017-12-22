@@ -3,13 +3,16 @@ package com.zundrel.currency.client.render.gui;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,9 +22,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.zundrel.currency.Currency;
 import com.zundrel.currency.common.capabilities.CartCapability;
+import com.zundrel.currency.common.network.MessageSyncClearList;
+import com.zundrel.currency.common.network.PacketDispatcher;
 
 @SideOnly(Side.CLIENT)
-public class GuiScanner extends GuiScreen {
+public class GuiShoppingList extends GuiScreen {
 	int guiWidth = 256;
 	int guiHeight = 256;
 
@@ -29,8 +34,10 @@ public class GuiScanner extends GuiScreen {
 	int guiY = (height - guiHeight) / 2;
 
 	EntityPlayer player;
+	
+	GuiButton clearList; 
 
-	public GuiScanner(EntityPlayer player) {
+	public GuiShoppingList(EntityPlayer player) {
 		super();
 
 		this.player = player;
@@ -79,20 +86,32 @@ public class GuiScanner extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		buttonList.clear();
+		clearList = new GuiButton(0, (width / 2) - 35, (height / 2) + 150, 70, 20, "Clear List");
+		buttonList.add(clearList);
 		super.initGui();
 	}
 
 	@Override
 	public void onGuiClosed() {
-
 		super.onGuiClosed();
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.id == 0) {
-
+			System.out.println("HEH DUDE");
+			CartCapability entityData = player.getCapability(Currency.CART_DATA, null);
+			
+			entityData.setCart(NonNullList.withSize(entityData.getSizeInventory(), ItemStack.EMPTY), true);
+			List<Float> prices = Arrays.asList(new Float[25]);
+			for (int i = 0; i < prices.size(); i++) {
+				prices.set(i, (float) 0);
+			}
+			entityData.setPrices(prices, true);
+			
+			PacketDispatcher.sendToServer(new MessageSyncClearList(player));
+			
+			mc.displayGuiScreen(null);
 		}
 
 		try {
@@ -117,7 +136,11 @@ public class GuiScanner extends GuiScreen {
 
 	@Override
 	protected void mouseClicked(int x, int y, int btn) {
-
+		try {
+			super.mouseClicked(x, y, btn);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

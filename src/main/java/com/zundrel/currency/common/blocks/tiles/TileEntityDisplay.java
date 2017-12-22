@@ -42,7 +42,9 @@ public class TileEntityDisplay extends TileEntity implements IInventory, ITickab
 	{
 		super.writeToNBT(compound);
 		
-		compound.setString("ownerUUID", ownerUUID.toString());
+		if (ownerUUID != null) {
+			compound.setString("ownerUUID", ownerUUID.toString());
+		}
 		
 		if (shopControllerPos != null) {
 			compound.setInteger("shopx", shopControllerPos.getX());
@@ -73,7 +75,9 @@ public class TileEntityDisplay extends TileEntity implements IInventory, ITickab
 	{
 		super.readFromNBT(compound);
 		
-		ownerUUID = UUID.fromString(compound.getString("ownerUUID"));
+		if (compound.getString("ownerUUID") != null) {
+			ownerUUID = UUID.fromString(compound.getString("ownerUUID"));
+		}
 		
 		shopControllerPos = new BlockPos(compound.getInteger("shopx"), compound.getInteger("shopy"), compound.getInteger("shopz"));
 		

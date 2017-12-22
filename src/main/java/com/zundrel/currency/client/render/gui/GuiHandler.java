@@ -62,7 +62,7 @@ public class GuiHandler implements IGuiHandler
 			return new GuiStockCrate(player, new BlockPos(x, y, z), player.inventory, (TileEntityStockCrate) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		else if (ID == 5) {
-			return new GuiScanner(player);
+			return new GuiShoppingList(player);
 		}
 
 		return null;
