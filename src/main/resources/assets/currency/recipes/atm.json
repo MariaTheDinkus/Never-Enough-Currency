@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "currency:atm"
+  },
+  "pattern": [
+    "III",
+    "RGB",
+    "III"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "B": {
+      "item": "minecraft:stone_button"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}

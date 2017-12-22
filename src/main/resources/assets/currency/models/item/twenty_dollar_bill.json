@@ -1,0 +1,6 @@
+{
+    "parent": "currency:item/basic_item",
+    "textures": {
+        "layer0": "currency:items/twenty_dollar_bill"
+    }
+}

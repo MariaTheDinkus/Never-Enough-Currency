@@ -1,0 +1,58 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"wood": "blocks/planks_oak"
+		},
+		"model": "currency:free_shelf"
+	},
+	"variants": {
+		"normal": [{ "model": "currency:free_shelf" }],
+		"inventory": [{
+			"submodel": {
+				"post": { "model": "currency:free_shelf_middle_bottom" },
+				"post2": { "model": "currency:free_shelf_middle_bottom", "y": -180 }
+			}
+		}],
+		"facing": {
+			"north": {"y": 180},
+			"south": {},
+			"west": {"y": 90},
+			"east": {"y": 270},
+			"up": {"x": -90},
+			"down": {"x": 90}
+		},
+		"left": {
+			"true": {
+				"submodel": "currency:free_shelf_middle_bottom"
+			},
+			"false": {
+				
+			}
+		},
+		"right": {
+			"true": {
+				"submodel": "currency:free_shelf_middle_bottom", "y": 180
+			},
+			"false": {
+				
+			}
+		},
+		"topleft": {
+			"true": {
+				"submodel": "currency:free_shelf_middle_top"
+			},
+			"false": {
+				
+			}
+		},
+		"topright": {
+			"true": {
+				"submodel": "currency:free_shelf_middle_top", "y": 180
+			},
+			"false": {
+				
+			}
+		}
+	}
+}

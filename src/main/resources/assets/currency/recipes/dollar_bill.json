@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "currency:dollar_bill"
+  },
+  "ingredients": [
+    {
+      "item": "currency:quarter"
+    },
+    {
+      "item": "currency:quarter"
+    },
+    {
+      "item": "currency:quarter"
+    },
+    {
+      "item": "currency:quarter"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "currency:hundred_dollar_bill"
+  },
+  "ingredients": [
+    {
+      "item": "currency:twenty_dollar_bill"
+    },
+    {
+      "item": "currency:twenty_dollar_bill"
+    },
+    {
+      "item": "currency:twenty_dollar_bill"
+    },
+    {
+      "item": "currency:twenty_dollar_bill"
+    },
+    {
+      "item": "currency:twenty_dollar_bill"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

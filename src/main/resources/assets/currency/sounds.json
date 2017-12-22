@@ -1,0 +1,25 @@
+{
+	"currency.scanner":
+	{
+		"category": "neutral",
+		"sounds":
+		[
+			{
+				"name": "currency:scanner",
+				"stream": false
+			}
+		]
+	},
+	
+	"currency.register":
+	{
+		"category": "neutral",
+		"sounds":
+		[
+			{
+				"name": "currency:register",
+				"stream": false
+			}
+		]
+	}
+}

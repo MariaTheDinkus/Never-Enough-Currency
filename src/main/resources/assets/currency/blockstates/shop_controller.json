@@ -1,0 +1,13 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"all": "currency:blocks/shop_controller"
+		},
+		"model": "cube_all"
+	},
+	"variants": {
+		"normal": { "model": "cube_all" },
+		"inventory": [{}]
+    }
+}

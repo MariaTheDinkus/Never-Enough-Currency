@@ -1,0 +1,12 @@
+{
+  "result": {
+    "item": "currency:five_dollar_bill",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "currency:ten_dollar_bill"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

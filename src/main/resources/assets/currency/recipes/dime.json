@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "currency:dime"
+  },
+  "ingredients": [
+    {
+      "item": "currency:nickel"
+    },
+    {
+      "item": "currency:nickel"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}
