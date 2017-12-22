@@ -98,7 +98,7 @@ public class GuiWallet extends GuiContainer
 		entity.prevRotationYawHead = entity.rotationYaw;
 		Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
 		Minecraft.getMinecraft().getRenderManager().setRenderShadow(false);
-		Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
+		Minecraft.getMinecraft().getRenderManager().renderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, false);
 		Minecraft.getMinecraft().getRenderManager().setRenderShadow(true);
 		entity.renderYawOffset = f2;
 		entity.rotationYaw = f3;
