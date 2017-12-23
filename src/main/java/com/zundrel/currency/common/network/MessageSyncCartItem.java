@@ -16,46 +16,43 @@ public class MessageSyncCartItem implements IMessage {
 	private int slot;
 	private ItemStack stack;
 
-    public MessageSyncCartItem() {}
+	public MessageSyncCartItem() {
+	}
 
-    public MessageSyncCartItem(EntityLivingBase entity, int slot, ItemStack stack) { 
-    	this.entityId = entity.getEntityId();
-    	this.slot = slot;
-    	this.stack = stack;
-    }
+	public MessageSyncCartItem(EntityLivingBase entity, int slot, ItemStack stack) {
+		this.entityId = entity.getEntityId();
+		this.slot = slot;
+		this.stack = stack;
+	}
 
-    @Override
-    public void toBytes(ByteBuf buf) { 
-    	buf.writeInt(this.entityId);
-    	buf.writeInt(this.slot);
-    	ByteBufUtils.writeItemStack(buf, this.stack);
-    }
+	@Override
+	public void toBytes(ByteBuf buf) {
+		buf.writeInt(this.entityId);
+		buf.writeInt(this.slot);
+		ByteBufUtils.writeItemStack(buf, this.stack);
+	}
 
-    @Override
-    public void fromBytes(ByteBuf buf) { 
-    	this.entityId = buf.readInt();
-    	this.slot = buf.readInt();
-    	this.stack = ByteBufUtils.readItemStack(buf);
-    }
-    
-    public static class Handler
-    extends AbstractClientMessageHandler<MessageSyncCartItem>
-  {
-    public IMessage handleClientMessage(EntityPlayer player, MessageSyncCartItem message, MessageContext ctx)
-    {
-      if ((player != null) && (message != null) && (ctx != null))
-      {
-        EntityLivingBase en = (EntityLivingBase)player.getEntityWorld().getEntityByID(message.entityId);
-        if (en != null)
-        {
-        	if (en.getEntityWorld() != null && en.hasCapability(Currency.CART_DATA, null)) {
-        		CartCapability entityData = en.getCapability(Currency.CART_DATA, null);
-          	  	entityData.setStackInSlot(message.slot, message.stack, false);
-            }
-        }
-      }
-      return null;
-    }
-  }
+	@Override
+	public void fromBytes(ByteBuf buf) {
+		this.entityId = buf.readInt();
+		this.slot = buf.readInt();
+		this.stack = ByteBufUtils.readItemStack(buf);
+	}
+
+	public static class Handler extends AbstractClientMessageHandler<MessageSyncCartItem> {
+		@Override
+		public IMessage handleClientMessage(EntityPlayer player, MessageSyncCartItem message, MessageContext ctx) {
+			if ((player != null) && (message != null) && (ctx != null)) {
+				EntityLivingBase en = (EntityLivingBase) player.getEntityWorld().getEntityByID(message.entityId);
+				if (en != null) {
+					if (en.getEntityWorld() != null && en.hasCapability(Currency.CART_DATA, null)) {
+						CartCapability entityData = en.getCapability(Currency.CART_DATA, null);
+						entityData.setStackInSlot(message.slot, message.stack, false);
+					}
+				}
+			}
+			return null;
+		}
+	}
 
 }

@@ -59,40 +59,36 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { NORTH, EAST, SOUTH, WEST });
 	}
-	
+
 	public boolean isAdjacentBlockOfMyType(IBlockAccess world, BlockPos position, EnumFacing facing) {
 
-        assert null != world : "world cannot be null";
-        assert null != position : "position cannot be null";
-        assert null != this : "type cannot be null";
+		assert null != world : "world cannot be null";
+		assert null != position : "position cannot be null";
+		assert null != this : "type cannot be null";
 
-        BlockPos newPosition = position.offset(facing);
-        IBlockState blockState = world.getBlockState(newPosition);
-        Block block = (null == blockState) ? null : blockState.getBlock();
-        
-        System.out.println(this == block);
-        
-        return this == block;
-    }
+		BlockPos newPosition = position.offset(facing);
+		IBlockState blockState = world.getBlockState(newPosition);
+		Block block = (null == blockState) ? null : blockState.getBlock();
+
+		System.out.println(this == block);
+
+		return this == block;
+	}
 
 	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		IBlockState newState = state;
 
-		state = state
-                .withProperty(EAST, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.EAST))
-                .withProperty(NORTH, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.NORTH))
-                .withProperty(SOUTH, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.SOUTH))
-                .withProperty(WEST, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.WEST));
+		state = state.withProperty(EAST, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.EAST)).withProperty(NORTH, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.NORTH)).withProperty(SOUTH, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.SOUTH)).withProperty(WEST, this.isAdjacentBlockOfMyType(worldIn, pos, EnumFacing.WEST));
 
 		return state;
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return 0;
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState();
@@ -126,39 +122,20 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 			table.setOwnerUUID(player.getUniqueID());
 		}
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos,
-			IBlockState state, EntityPlayer playerIn, EnumHand hand,
-			EnumFacing side, float hitX, float hitY, float hitZ) {
-		TileEntityDisplay shelf = (TileEntityDisplay) worldIn
-				.getTileEntity(pos);
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		TileEntityDisplay shelf = (TileEntityDisplay) worldIn.getTileEntity(pos);
 
 		if (!playerIn.getHeldItem(hand).isEmpty()) {
-			if (playerIn.getHeldItem(hand).getItem() instanceof ItemLinkingCard
-					&& playerIn.getHeldItem(hand).hasTagCompound()) {
-				BlockPos shopControllerPos = new BlockPos(playerIn
-						.getHeldItem(hand).getTagCompound().getInteger("x"),
-						playerIn.getHeldItem(hand).getTagCompound()
-								.getInteger("y"), playerIn.getHeldItem(hand)
-								.getTagCompound().getInteger("z"));
-				if (!shopControllerPos.equals(shelf.getShopControllerPos())
-						&& worldIn.getBlockState(shopControllerPos).getBlock() instanceof BlockShopController) {
-					if (((TileEntityShopController) worldIn
-							.getTileEntity(shopControllerPos)).getOwnerUUID()
-							.equals(shelf.getOwnerUUID())) {
+			if (playerIn.getHeldItem(hand).getItem() instanceof ItemLinkingCard && playerIn.getHeldItem(hand).hasTagCompound()) {
+				BlockPos shopControllerPos = new BlockPos(playerIn.getHeldItem(hand).getTagCompound().getInteger("x"), playerIn.getHeldItem(hand).getTagCompound().getInteger("y"), playerIn.getHeldItem(hand).getTagCompound().getInteger("z"));
+				if (!shopControllerPos.equals(shelf.getShopControllerPos()) && worldIn.getBlockState(shopControllerPos).getBlock() instanceof BlockShopController) {
+					if (((TileEntityShopController) worldIn.getTileEntity(shopControllerPos)).getOwnerUUID().equals(shelf.getOwnerUUID())) {
 						if (shelf.getShopControllerPos() != null && worldIn.getTileEntity(shelf.getShopControllerPos()) instanceof TileEntityShopController) {
-							TileEntityShopController prevController = (TileEntityShopController) worldIn
-									.getTileEntity(shelf.getShopControllerPos());
+							TileEntityShopController prevController = (TileEntityShopController) worldIn.getTileEntity(shelf.getShopControllerPos());
 							for (BlockPos linkedPos : prevController.linkedBlocks) {
-								if (shelf.getShopControllerPos() != null
-										&& linkedPos != null
-										&& shelf.getShopControllerPos().getX() == linkedPos
-												.getX()
-										&& shelf.getShopControllerPos().getY() == linkedPos
-												.getY()
-										&& shelf.getShopControllerPos().getZ() == linkedPos
-												.getZ()) {
+								if (shelf.getShopControllerPos() != null && linkedPos != null && shelf.getShopControllerPos().getX() == linkedPos.getX() && shelf.getShopControllerPos().getY() == linkedPos.getY() && shelf.getShopControllerPos().getZ() == linkedPos.getZ()) {
 									prevController.linkedBlocks.add(pos);
 									prevController.markDirty();
 									break;
@@ -166,9 +143,7 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 							}
 							prevController.linkedBlocks.remove(shelf.getPos());
 						}
-						((TileEntityShopController) worldIn
-								.getTileEntity(shopControllerPos)).linkedBlocks
-								.add(pos);
+						((TileEntityShopController) worldIn.getTileEntity(shopControllerPos)).linkedBlocks.add(pos);
 						shelf.setShopControllerPos(shopControllerPos);
 						return true;
 					}
@@ -192,20 +167,14 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 			return false;
 		}
 
-		if (!playerIn.getHeldItem(hand).isEmpty()
-				&& playerIn.getHeldItem(hand).getItem() instanceof ItemBlock
-				&& Block.getBlockFromItem(playerIn.getHeldItem(hand).getItem()) instanceof BlockShelf) {
+		if (!playerIn.getHeldItem(hand).isEmpty() && playerIn.getHeldItem(hand).getItem() instanceof ItemBlock && Block.getBlockFromItem(playerIn.getHeldItem(hand).getItem()) instanceof BlockShelf) {
 			return false;
 		}
 
 		if (shelf.getOwnerUUID() != null) {
-			if (!shelf.getOwnerUUID().equals(playerIn.getUniqueID())
-					&& playerIn.getHeldItem(hand).isEmpty()
-					&& !playerIn.isSneaking()) {
-				CartCapability entityData = playerIn.getCapability(
-						Currency.CART_DATA, null);
-				if (entityData.getCart() != null && slot != -1
-						&& !shelf.getStackInSlot(slot).isEmpty()) {
+			if (!shelf.getOwnerUUID().equals(playerIn.getUniqueID()) && playerIn.getHeldItem(hand).isEmpty() && !playerIn.isSneaking()) {
+				CartCapability entityData = playerIn.getCapability(Currency.CART_DATA, null);
+				if (entityData.getCart() != null && slot != -1 && !shelf.getStackInSlot(slot).isEmpty()) {
 					ItemStack copy = shelf.getStackInSlot(slot).copy();
 
 					int amount = 0;
@@ -222,50 +191,18 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 
 					boolean sameType = false;
 					for (ItemStack cartStack : entityData.getCart()) {
-						if (!cartStack.isEmpty()
-								&& copy.getItem() == cartStack.getItem()
-								&& copy.getMetadata() == cartStack
-										.getMetadata()) {
-							if (cartStack.getCount() < cartStack
-									.getMaxStackSize()) {
+						if (!cartStack.isEmpty() && copy.getItem() == cartStack.getItem() && copy.getMetadata() == cartStack.getMetadata()) {
+							if (cartStack.getCount() < cartStack.getMaxStackSize()) {
 								cartStack.grow(1);
-								worldIn.playSound(null, pos,
-										SoundHandler.scanner,
-										SoundCategory.NEUTRAL, 1,
-										(float) (0.98F + Math.random()
-												* (1 - 0.98F)));
+								worldIn.playSound(null, pos, SoundHandler.scanner, SoundCategory.NEUTRAL, 1, (float) (0.98F + Math.random() * (1 - 0.98F)));
 								if (!worldIn.isRemote) {
-									playerIn.sendStatusMessage(
-											new TextComponentString(
-													"Added 1x "
-															+ TextFormatting.GREEN
-															+ copy.getDisplayName()
-															+ TextFormatting.RESET
-															+ " to your list. You now have "
-															+ cartStack
-																	.getCount()
-															+ "x "
-															+ TextFormatting.GREEN
-															+ copy.getDisplayName()
-															+ TextFormatting.RESET
-															+ " on your list."),
-											true);
+									playerIn.sendStatusMessage(new TextComponentString("Added 1x " + TextFormatting.GREEN + copy.getDisplayName() + TextFormatting.RESET + " to your list. You now have " + cartStack.getCount() + "x " + TextFormatting.GREEN + copy.getDisplayName() + TextFormatting.RESET + " on your list."), true);
 								}
 								entityData.sendPacket();
 							} else {
-								worldIn.playSound(null, pos,
-										SoundHandler.scanner,
-										SoundCategory.NEUTRAL, 1,
-										(float) (0.98F + Math.random()
-												* (1 - 0.98F)));
+								worldIn.playSound(null, pos, SoundHandler.scanner, SoundCategory.NEUTRAL, 1, (float) (0.98F + Math.random() * (1 - 0.98F)));
 								if (!worldIn.isRemote) {
-									playerIn.sendStatusMessage(
-											new TextComponentString("Your "
-													+ TextFormatting.GREEN
-													+ copy.getDisplayName()
-													+ TextFormatting.RESET
-													+ " stack is already full."),
-											true);
+									playerIn.sendStatusMessage(new TextComponentString("Your " + TextFormatting.GREEN + copy.getDisplayName() + TextFormatting.RESET + " stack is already full."), true);
 								}
 							}
 							sameType = true;
@@ -275,36 +212,21 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 
 					if (!sameType) {
 						copy.setCount(1);
-						
-						if (shelf.getShopControllerPos() != null
-								&& worldIn.getTileEntity(shelf
-										.getShopControllerPos()) instanceof TileEntityShopController) {
-							TileEntityShopController controller = (TileEntityShopController) worldIn
-									.getTileEntity(shelf.getShopControllerPos());
-							
-							worldIn.playSound(null, pos, SoundHandler.scanner,
-									SoundCategory.NEUTRAL, 1,
-									(float) (0.98F + Math.random()
-											* (1 - 0.98F)));
+
+						if (shelf.getShopControllerPos() != null && worldIn.getTileEntity(shelf.getShopControllerPos()) instanceof TileEntityShopController) {
+							TileEntityShopController controller = (TileEntityShopController) worldIn.getTileEntity(shelf.getShopControllerPos());
+
+							worldIn.playSound(null, pos, SoundHandler.scanner, SoundCategory.NEUTRAL, 1, (float) (0.98F + Math.random() * (1 - 0.98F)));
 							if (!worldIn.isRemote) {
-								playerIn.sendStatusMessage(
-										new TextComponentString("Added 1x "
-												+ TextFormatting.GREEN
-												+ copy.getDisplayName()
-												+ TextFormatting.RESET
-												+ " to your list."), true);
+								playerIn.sendStatusMessage(new TextComponentString("Added 1x " + TextFormatting.GREEN + copy.getDisplayName() + TextFormatting.RESET + " to your list."), true);
 							}
 
 							for (BlockPos stockPos : controller.storageBlocks) {
 								if (worldIn.getTileEntity(stockPos) instanceof TileEntityStockCrate) {
-									TileEntityStockCrate crate = (TileEntityStockCrate) worldIn
-											.getTileEntity(stockPos);
+									TileEntityStockCrate crate = (TileEntityStockCrate) worldIn.getTileEntity(stockPos);
 
-									if (!crate.getType().isEmpty()
-											&& crate.getType().getItem() == copy
-													.getItem()) {
-										entityData.addStackToCart(copy,
-												crate.getAmount(), true);
+									if (!crate.getType().isEmpty() && crate.getType().getItem() == copy.getItem()) {
+										entityData.addStackToCart(copy, crate.getAmount(), true);
 										return true;
 									}
 								}
@@ -313,10 +235,7 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 						}
 					}
 				}
-			} else if (shelf.getOwnerUUID().equals(playerIn.getUniqueID())
-					&& shelf.getStackInSlot(slot).isEmpty()
-					&& !playerIn.getHeldItem(hand).isEmpty()
-					&& !(playerIn.getHeldItem(hand).getItem() instanceof ItemLinkingCard)) {
+			} else if (shelf.getOwnerUUID().equals(playerIn.getUniqueID()) && shelf.getStackInSlot(slot).isEmpty() && !playerIn.getHeldItem(hand).isEmpty() && !(playerIn.getHeldItem(hand).getItem() instanceof ItemLinkingCard)) {
 				if (!playerIn.isSneaking()) {
 					ItemStack copy = playerIn.getHeldItem(hand).copy();
 
@@ -325,70 +244,34 @@ public class BlockTable extends BlockBasic implements ITileEntityProvider {
 					shelf.setInventorySlotContents(slot, copy);
 
 					if (!worldIn.isRemote) {
-						playerIn.sendStatusMessage(
-								new TextComponentString("Slot " + (slot + 1)
-										+ " has been set to "
-										+ TextFormatting.GREEN
-										+ copy.getDisplayName()
-										+ TextFormatting.RESET + "."), true);
+						playerIn.sendStatusMessage(new TextComponentString("Slot " + (slot + 1) + " has been set to " + TextFormatting.GREEN + copy.getDisplayName() + TextFormatting.RESET + "."), true);
 					}
 				}
 			} else if (playerIn.getHeldItem(hand).isEmpty()) {
-				if (shelf.getOwnerUUID().equals(playerIn.getUniqueID())
-						&& playerIn.isSneaking()) {
+				if (shelf.getOwnerUUID().equals(playerIn.getUniqueID()) && playerIn.isSneaking()) {
 					shelf.setInventorySlotContents(slot, ItemStack.EMPTY);
 
 					if (!worldIn.isRemote) {
-						playerIn.sendStatusMessage(new TextComponentString(
-								"Cleared slot " + (slot + 1) + "."), true);
+						playerIn.sendStatusMessage(new TextComponentString("Cleared slot " + (slot + 1) + "."), true);
 					}
-				} else if (!shelf.getOwnerUUID().equals(playerIn.getUniqueID())
-						&& playerIn.isSneaking()
-						&& !shelf.getStackInSlot(slot).isEmpty()) {
+				} else if (!shelf.getOwnerUUID().equals(playerIn.getUniqueID()) && playerIn.isSneaking() && !shelf.getStackInSlot(slot).isEmpty()) {
 					if (!worldIn.isRemote) {
 						float amount = 0;
 						if (worldIn.getTileEntity(shelf.getShopControllerPos()) instanceof TileEntityShopController) {
-							TileEntityShopController controller = (TileEntityShopController) worldIn
-									.getTileEntity(shelf.getShopControllerPos());
+							TileEntityShopController controller = (TileEntityShopController) worldIn.getTileEntity(shelf.getShopControllerPos());
 							for (BlockPos stockPos : controller.storageBlocks) {
 								if (worldIn.getTileEntity(stockPos) instanceof TileEntityStockCrate) {
-									TileEntityStockCrate crate = (TileEntityStockCrate) worldIn
-											.getTileEntity(stockPos);
-									if (!crate.getType().isEmpty()
-											&& shelf.getStackInSlot(slot)
-													.getItem() == crate
-													.getType().getItem()) {
+									TileEntityStockCrate crate = (TileEntityStockCrate) worldIn.getTileEntity(stockPos);
+									if (!crate.getType().isEmpty() && shelf.getStackInSlot(slot).getItem() == crate.getType().getItem()) {
 										amount = crate.getAmount();
 										break;
 									}
 								}
 							}
 
-							playerIn.sendStatusMessage(
-									new TextComponentString("Slot "
-											+ (slot + 1)
-											+ " contains "
-											+ TextFormatting.GREEN
-											+ shelf.getStackInSlot(slot)
-													.getDisplayName()
-											+ TextFormatting.RESET
-											+ ". It is selling for "
-											+ TextFormatting.GREEN
-											+ NumberFormat.getCurrencyInstance(
-													Locale.US).format(amount)
-											+ TextFormatting.RESET + "."), true);
+							playerIn.sendStatusMessage(new TextComponentString("Slot " + (slot + 1) + " contains " + TextFormatting.GREEN + shelf.getStackInSlot(slot).getDisplayName() + TextFormatting.RESET + ". It is selling for " + TextFormatting.GREEN + NumberFormat.getCurrencyInstance(Locale.US).format(amount) + TextFormatting.RESET + "."), true);
 						} else {
-							playerIn.sendStatusMessage(new TextComponentString(
-									"Slot "
-											+ (slot + 1)
-											+ " contains "
-											+ TextFormatting.GREEN
-											+ shelf.getStackInSlot(slot)
-													.getDisplayName()
-											+ TextFormatting.RESET
-											+ ". It is selling for "
-											+ TextFormatting.GREEN + "$0.00"
-											+ TextFormatting.RESET + "."), true);
+							playerIn.sendStatusMessage(new TextComponentString("Slot " + (slot + 1) + " contains " + TextFormatting.GREEN + shelf.getStackInSlot(slot).getDisplayName() + TextFormatting.RESET + ". It is selling for " + TextFormatting.GREEN + "$0.00" + TextFormatting.RESET + "."), true);
 						}
 					}
 				}

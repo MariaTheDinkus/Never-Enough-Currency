@@ -11,47 +11,37 @@ import com.zundrel.currency.Currency;
 import com.zundrel.currency.common.capabilities.AccountCapability;
 import com.zundrel.currency.common.utils.CurrencyUtils;
 
-public class MessageSyncAdd implements IMessage
-{
+public class MessageSyncAdd implements IMessage {
 	private int entityId;
 	private float amount;
 
-	public MessageSyncAdd()
-	{
+	public MessageSyncAdd() {
 	}
 
-	public MessageSyncAdd(EntityLivingBase entity, float amount)
-	{
+	public MessageSyncAdd(EntityLivingBase entity, float amount) {
 		this.entityId = entity.getEntityId();
 		this.amount = amount;
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(this.entityId);
 		buf.writeFloat(amount);
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
+	public void fromBytes(ByteBuf buf) {
 		this.entityId = buf.readInt();
 		this.amount = buf.readFloat();
 	}
 
-	public static class Handler extends AbstractMessageHandler<MessageSyncAdd>
-	{
+	public static class Handler extends AbstractMessageHandler<MessageSyncAdd> {
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, MessageSyncAdd message, MessageContext ctx)
-		{
-			if((player != null) && (message != null) && (ctx != null))
-			{
+		public IMessage handleServerMessage(EntityPlayer player, MessageSyncAdd message, MessageContext ctx) {
+			if ((player != null) && (message != null) && (ctx != null)) {
 				EntityLivingBase en = (EntityLivingBase) player.getEntityWorld().getEntityByID(message.entityId);
-				if(en != null)
-				{
-					if(player.getEntityId() == en.getEntityId() && en.getEntityWorld() != null && en.hasCapability(Currency.ACCOUNT_DATA, null))
-					{
+				if (en != null) {
+					if (player.getEntityId() == en.getEntityId() && en.getEntityWorld() != null && en.hasCapability(Currency.ACCOUNT_DATA, null)) {
 						AccountCapability entityData = en.getCapability(Currency.ACCOUNT_DATA, null);
 						for (ItemStack stack : CurrencyUtils.itemMoneyAmount(message.amount)) {
 							if (stack != null && stack != ItemStack.EMPTY && en instanceof EntityPlayer) {
@@ -66,8 +56,7 @@ public class MessageSyncAdd implements IMessage
 		}
 
 		@Override
-		public IMessage handleClientMessage(EntityPlayer paramEntityPlayer, MessageSyncAdd paramT, MessageContext paramMessageContext)
-		{
+		public IMessage handleClientMessage(EntityPlayer paramEntityPlayer, MessageSyncAdd paramT, MessageContext paramMessageContext) {
 			return null;
 		}
 	}

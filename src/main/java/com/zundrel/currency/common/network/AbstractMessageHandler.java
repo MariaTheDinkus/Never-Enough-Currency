@@ -9,19 +9,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zundrel.currency.Currency;
 
-public abstract class AbstractMessageHandler<T extends IMessage>
-  implements IMessageHandler<T, IMessage>
-{
-  @SideOnly(Side.CLIENT)
-  public abstract IMessage handleClientMessage(EntityPlayer paramEntityPlayer, T paramT, MessageContext paramMessageContext);
-  
-  public abstract IMessage handleServerMessage(EntityPlayer paramEntityPlayer, T paramT, MessageContext paramMessageContext);
-  
-  public IMessage onMessage(T message, MessageContext ctx)
-  {
-    if (ctx.side.isClient()) {
-      return handleClientMessage(Currency.proxy.getPlayerEntity(ctx), message, ctx);
-    }
-    return handleServerMessage(Currency.proxy.getPlayerEntity(ctx), message, ctx);
-  }
+public abstract class AbstractMessageHandler<T extends IMessage> implements IMessageHandler<T, IMessage> {
+	@SideOnly(Side.CLIENT)
+	public abstract IMessage handleClientMessage(EntityPlayer paramEntityPlayer, T paramT, MessageContext paramMessageContext);
+
+	public abstract IMessage handleServerMessage(EntityPlayer paramEntityPlayer, T paramT, MessageContext paramMessageContext);
+
+	@Override
+	public IMessage onMessage(T message, MessageContext ctx) {
+		if (ctx.side.isClient()) {
+			return handleClientMessage(Currency.proxy.getPlayerEntity(ctx), message, ctx);
+		}
+		return handleServerMessage(Currency.proxy.getPlayerEntity(ctx), message, ctx);
+	}
 }

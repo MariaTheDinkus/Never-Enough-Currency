@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
@@ -12,69 +11,75 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class GuiWallet extends GuiContainer
-{
-	/** x and y size of the inventory window in pixels. Defined as float, passed as int
-	 * These are used for drawing the player model. */
+public class GuiWallet extends GuiContainer {
+	/**
+	 * x and y size of the inventory window in pixels. Defined as float, passed
+	 * as int These are used for drawing the player model.
+	 */
 	private float xSize_lo;
 	private float ySize_lo;
 
-	/** ResourceLocation takes 2 parameters: ModId, path to texture at the location:
-	 * "src/minecraft/assets/modid/"
+	/**
+	 * ResourceLocation takes 2 parameters: ModId, path to texture at the
+	 * location: "src/minecraft/assets/modid/"
 	 * 
-	 * I have provided a sample texture file that works with this tutorial. Download it
-	 * from Forge_Tutorials/textures/gui/
+	 * I have provided a sample texture file that works with this tutorial.
+	 * Download it from Forge_Tutorials/textures/gui/
 	 */
 	private static final ResourceLocation iconLocation = new ResourceLocation("currency", "textures/gui/inventorywallet.png");
 
 	/** The inventory to render on screen */
 	private final InventoryItem inventory;
 
-	public GuiWallet(ContainerItem containerItem)
-	{
+	public GuiWallet(ContainerItem containerItem) {
 		super(containerItem);
 		this.inventory = (InventoryItem) containerItem.getItemInventory();
 	}
-	
+
 	/**
 	 * Draws the screen and all the components in it.
 	 */
-	public void drawScreen(int par1, int par2, float par3)
-	{
+	@Override
+	public void drawScreen(int par1, int par2, float par3) {
 		this.drawDefaultBackground();
 		super.drawScreen(par1, par2, par3);
 		this.renderHoveredToolTip(par1, par2);
-		this.xSize_lo = (float)par1;
-		this.ySize_lo = (float)par2;
+		this.xSize_lo = par1;
+		this.ySize_lo = par2;
 	}
 
 	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of the items)
+	 * Draw the foreground layer for the GuiContainer (everything in front of
+	 * the items)
 	 */
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
-	{
+	@Override
+	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		String s = this.inventory.hasCustomName() ? this.inventory.getName() : I18n.format(this.inventory.getName());
-//		this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 0, 4210752);`
-//		this.fontRendererObj.drawString(I18n.format("container.inventory"), 26, this.ySize - 96 + 4, 4210752);
+		// this.fontRendererObj.drawString(s, this.xSize / 2 -
+		// this.fontRendererObj.getStringWidth(s) / 2, 0, 4210752);`
+		// this.fontRendererObj.drawString(I18n.format("container.inventory"),
+		// 26, this.ySize - 96 + 4, 4210752);
 	}
 
 	/**
-	 * Draw the background layer for the GuiContainer (everything behind the items)
+	 * Draw the background layer for the GuiContainer (everything behind the
+	 * items)
 	 */
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
-	{
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(iconLocation);
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
 		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 		int i1;
-		drawPlayerModel(k + 51, l + 75, 30, (float)(k + 51) - this.xSize_lo, (float)(l + 75 - 50) - this.ySize_lo, this.mc.player);
+		drawPlayerModel(k + 51, l + 75, 30, k + 51 - this.xSize_lo, l + 75 - 50 - this.ySize_lo, this.mc.player);
 	}
 
 	/**
-	 * This renders the player model in standard inventory position (in later versions of Minecraft / Forge, you can
-	 * simply call GuiInventory.drawEntityOnScreen directly instead of copying this code)
+	 * This renders the player model in standard inventory position (in later
+	 * versions of Minecraft / Forge, you can simply call
+	 * GuiInventory.drawEntityOnScreen directly instead of copying this code)
 	 */
 	public static void drawPlayerModel(int x, int y, int scale, float yaw, float pitch, EntityLivingBase entity) {
 		GL11.glEnable(GL11.GL_COLOR_MATERIAL);

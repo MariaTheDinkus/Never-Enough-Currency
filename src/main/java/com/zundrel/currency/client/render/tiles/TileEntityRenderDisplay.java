@@ -1,13 +1,8 @@
 package com.zundrel.currency.client.render.tiles;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.block.model.ModelManager;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
@@ -91,7 +86,7 @@ public class TileEntityRenderDisplay extends TileEntitySpecialRenderer<TileEntit
 			}
 		}
 	}
-	
+
 	public void renderTable(TileEntityDisplay te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		for (int i = 0; i < 4; ++i) {
 			if (!te.getStackInSlot(i).isEmpty()) {
@@ -100,7 +95,7 @@ public class TileEntityRenderDisplay extends TileEntitySpecialRenderer<TileEntit
 				customItem.setItem(te.getStackInSlot(i));
 				GlStateManager.pushMatrix();
 				GlStateManager.translate((float) x, (float) y, (float) z);
-				
+
 				if (i < 2) {
 					GlStateManager.translate(0.25F + (0.5F * (i)), 0.94F, 0.25F);
 				} else {

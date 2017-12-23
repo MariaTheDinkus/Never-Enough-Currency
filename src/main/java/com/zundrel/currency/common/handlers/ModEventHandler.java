@@ -26,7 +26,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import com.zundrel.currency.Currency;
-import com.zundrel.currency.common.blocks.BlockHandler;
 import com.zundrel.currency.common.capabilities.AccountCapability;
 import com.zundrel.currency.common.capabilities.CartCapability;
 import com.zundrel.currency.common.config.ConfigHandler;
@@ -61,7 +60,7 @@ public class ModEventHandler {
 		Minecraft mc = Minecraft.getMinecraft();
 		FontRenderer fr = mc.fontRenderer;
 		RenderItem renderItem = mc.getRenderItem();
-		
+
 		if (mc.player.isSneaking() || mc.currentScreen == null && mc.player.getHeldItemMainhand() != ItemStack.EMPTY && mc.player.getHeldItemMainhand().getItem() instanceof ItemWallet || Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().player.getHeldItemOffhand() != ItemStack.EMPTY && Minecraft.getMinecraft().player.getHeldItemOffhand().getItem() instanceof ItemWallet) {
 			if (event.getType() != ElementType.EXPERIENCE) {
 				return;
@@ -69,12 +68,12 @@ public class ModEventHandler {
 
 			String physicalAmount = CurrencyUtils.getAllCurrency(mc.player);
 			String accountAmount = mc.player.getCapability(Currency.ACCOUNT_DATA, null).getFormattedAmount();
-			
+
 			int position = ConfigHandler.position;
 			position = 0;
-			
+
 			GL11.glPushMatrix();
-			
+
 			if (position == 0 || position == 2) {
 				if (position == 2) {
 					GL11.glTranslated(0, new ScaledResolution(mc).getScaledHeight() - (34), 0);
@@ -85,10 +84,10 @@ public class ModEventHandler {
 				GL11.glTranslated(1, -2.5, 0);
 				renderItem.renderItemIntoGUI(dollarBill, 0, 0);
 				GL11.glPopMatrix();
-				
+
 				fr.drawString("Physical: " + physicalAmount, (3 * 16) + 7, 8, 0x37A537);
 				fr.drawString("Physical: " + physicalAmount, (3 * 16) + 6, 7, 0x55FF55);
-				
+
 				fr.drawString("Account: " + accountAmount, (3 * 16) + 7, 20, 0x37A537);
 				fr.drawString("Account: " + accountAmount, (3 * 16) + 6, 19, 0x55FF55);
 			} else if (position == 1 || position == 3) {
@@ -102,14 +101,14 @@ public class ModEventHandler {
 				GL11.glTranslated(1, -2.5, 0);
 				renderItem.renderItemIntoGUI(dollarBill, 42, 0);
 				GL11.glPopMatrix();
-				
+
 				fr.drawString("Physical: " + physicalAmount, (128 - fr.getStringWidth("Physical: " + physicalAmount)), 8, 0x37A537);
-				fr.drawString("Physical: " + physicalAmount,  (127 - fr.getStringWidth("Physical: " + physicalAmount)), 7, 0x55FF55);
-				
+				fr.drawString("Physical: " + physicalAmount, (127 - fr.getStringWidth("Physical: " + physicalAmount)), 7, 0x55FF55);
+
 				fr.drawString("Account: " + accountAmount, (128 - fr.getStringWidth("Account: " + accountAmount)), 20, 0x37A537);
 				fr.drawString("Account: " + accountAmount, (127 - fr.getStringWidth("Account: " + accountAmount)), 19, 0x55FF55);
 			}
-			
+
 			GL11.glPopMatrix();
 		}
 	}

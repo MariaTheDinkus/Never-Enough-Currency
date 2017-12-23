@@ -18,7 +18,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.zundrel.currency.Currency;
-import com.zundrel.currency.common.blocks.tiles.TileEntityDisplay;
 import com.zundrel.currency.common.blocks.tiles.TileEntityShopController;
 import com.zundrel.currency.common.blocks.tiles.TileEntityStockCrate;
 import com.zundrel.currency.common.items.ItemLinkingCard;
@@ -85,7 +84,7 @@ public class BlockStockCrate extends BlockBasic implements ITileEntityProvider {
 		TileEntityStockCrate crate = (TileEntityStockCrate) worldIn.getTileEntity(pos);
 
 		if (crate instanceof IInventory) {
-			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) crate);
+			InventoryHelper.dropInventoryItems(worldIn, pos, crate);
 		}
 
 		if (crate.getShopControllerPos() != null && worldIn.getTileEntity(crate.getShopControllerPos()) instanceof TileEntityShopController) {

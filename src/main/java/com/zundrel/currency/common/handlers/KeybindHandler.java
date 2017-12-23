@@ -1,7 +1,5 @@
 package com.zundrel.currency.common.handlers;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +12,9 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import org.lwjgl.input.Keyboard;
+
 import com.zundrel.currency.Currency;
-import com.zundrel.currency.client.ClientProxy;
 import com.zundrel.currency.common.capabilities.CartCapability;
 import com.zundrel.currency.common.info.ModInfo;
 
@@ -24,8 +23,7 @@ public class KeybindHandler {
 	public static KeyBinding openList;
 
 	public static void init() {
-		openList = new KeyBinding("key.shoppinglist.desc", Keyboard.KEY_G,
-				"key.currency.category");
+		openList = new KeyBinding("key.shoppinglist.desc", Keyboard.KEY_G, "key.currency.category");
 
 		ClientRegistry.registerKeyBinding(openList);
 	}
@@ -36,8 +34,7 @@ public class KeybindHandler {
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer player = mc.player;
 
-		CartCapability entityData = player.getCapability(Currency.CART_DATA,
-				null);
+		CartCapability entityData = player.getCapability(Currency.CART_DATA, null);
 
 		boolean isEmpty = true;
 
@@ -50,9 +47,7 @@ public class KeybindHandler {
 		}
 
 		if (!isEmpty && openList.isPressed()) {
-			Minecraft.getMinecraft().player.openGui(Currency.INSTANCE, 5,
-					mc.world, (int) player.posX, (int) player.posY,
-					(int) player.posZ);
+			Minecraft.getMinecraft().player.openGui(Currency.INSTANCE, 5, mc.world, (int) player.posX, (int) player.posY, (int) player.posZ);
 		}
 	}
 }

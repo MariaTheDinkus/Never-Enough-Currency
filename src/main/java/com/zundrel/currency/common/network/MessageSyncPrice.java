@@ -8,43 +8,37 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.zundrel.currency.common.blocks.tiles.TileEntityStockCrate;
 
-public class MessageSyncPrice implements IMessage
-{
+public class MessageSyncPrice implements IMessage {
 	private float amount;
 	private BlockPos pos;
 
-	public MessageSyncPrice()
-	{
+	public MessageSyncPrice() {
 	}
 
-	public MessageSyncPrice(float amount, BlockPos pos)
-	{
+	public MessageSyncPrice(float amount, BlockPos pos) {
 		this.amount = amount;
 		this.pos = pos;
 	}
 
-	public void fromBytes(ByteBuf buf)
-	{
+	@Override
+	public void fromBytes(ByteBuf buf) {
 		this.amount = buf.readFloat();
 		this.pos = new BlockPos(buf.readFloat(), buf.readFloat(), buf.readFloat());
 	}
 
-	public void toBytes(ByteBuf buf)
-	{
+	@Override
+	public void toBytes(ByteBuf buf) {
 		buf.writeFloat(amount);
 		buf.writeFloat(pos.getX());
 		buf.writeFloat(pos.getY());
 		buf.writeFloat(pos.getZ());
 	}
 
-	public static class Handler extends AbstractMessageHandler<MessageSyncPrice>
-	{
-		public IMessage handleClientMessage(EntityPlayer player, MessageSyncPrice message, MessageContext ctx)
-		{
-			if((player != null) && (message != null) && (ctx != null))
-			{
-				if(player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityStockCrate)
-				{
+	public static class Handler extends AbstractMessageHandler<MessageSyncPrice> {
+		@Override
+		public IMessage handleClientMessage(EntityPlayer player, MessageSyncPrice message, MessageContext ctx) {
+			if ((player != null) && (message != null) && (ctx != null)) {
+				if (player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityStockCrate) {
 					TileEntityStockCrate crate = (TileEntityStockCrate) player.getEntityWorld().getTileEntity(message.pos);
 					crate.setAmount(message.amount);
 				}
@@ -53,12 +47,9 @@ public class MessageSyncPrice implements IMessage
 		}
 
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, MessageSyncPrice message, MessageContext ctx)
-		{
-			if((player != null) && (message != null) && (ctx != null))
-			{
-				if(player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityStockCrate)
-				{
+		public IMessage handleServerMessage(EntityPlayer player, MessageSyncPrice message, MessageContext ctx) {
+			if ((player != null) && (message != null) && (ctx != null)) {
+				if (player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityStockCrate) {
 					TileEntityStockCrate crate = (TileEntityStockCrate) player.getEntityWorld().getTileEntity(message.pos);
 					crate.setAmount(message.amount);
 				}

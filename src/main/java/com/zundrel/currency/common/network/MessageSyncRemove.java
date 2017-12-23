@@ -11,43 +11,33 @@ import com.zundrel.currency.Currency;
 import com.zundrel.currency.common.capabilities.AccountCapability;
 import com.zundrel.currency.common.items.ItemMoneyBase;
 
-public class MessageSyncRemove implements IMessage
-{
+public class MessageSyncRemove implements IMessage {
 	private int entityId;
 
-	public MessageSyncRemove()
-	{
+	public MessageSyncRemove() {
 	}
 
-	public MessageSyncRemove(EntityLivingBase entity)
-	{
+	public MessageSyncRemove(EntityLivingBase entity) {
 		this.entityId = entity.getEntityId();
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf)
-	{
+	public void toBytes(ByteBuf buf) {
 		buf.writeInt(this.entityId);
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf)
-	{
+	public void fromBytes(ByteBuf buf) {
 		this.entityId = buf.readInt();
 	}
 
-	public static class Handler extends AbstractMessageHandler<MessageSyncRemove>
-	{
+	public static class Handler extends AbstractMessageHandler<MessageSyncRemove> {
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, MessageSyncRemove message, MessageContext ctx)
-		{
-			if((player != null) && (message != null) && (ctx != null))
-			{
+		public IMessage handleServerMessage(EntityPlayer player, MessageSyncRemove message, MessageContext ctx) {
+			if ((player != null) && (message != null) && (ctx != null)) {
 				EntityPlayer en = (EntityPlayer) player.getEntityWorld().getEntityByID(message.entityId);
-				if(en != null)
-				{
-					if(player.getEntityId() == en.getEntityId() && en.getEntityWorld() != null && en.hasCapability(Currency.ACCOUNT_DATA, null))
-					{
+				if (en != null) {
+					if (player.getEntityId() == en.getEntityId() && en.getEntityWorld() != null && en.hasCapability(Currency.ACCOUNT_DATA, null)) {
 						AccountCapability entityData = en.getCapability(Currency.ACCOUNT_DATA, null);
 						for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
 							if (player.inventory.getStackInSlot(i) != ItemStack.EMPTY && player.inventory.getStackInSlot(i).getItem() instanceof ItemMoneyBase) {
@@ -61,8 +51,7 @@ public class MessageSyncRemove implements IMessage
 		}
 
 		@Override
-		public IMessage handleClientMessage(EntityPlayer paramEntityPlayer, MessageSyncRemove paramT, MessageContext paramMessageContext)
-		{
+		public IMessage handleClientMessage(EntityPlayer paramEntityPlayer, MessageSyncRemove paramT, MessageContext paramMessageContext) {
 			return null;
 		}
 	}

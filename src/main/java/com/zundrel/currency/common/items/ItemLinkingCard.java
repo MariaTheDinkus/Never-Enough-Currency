@@ -21,14 +21,12 @@ import com.zundrel.currency.common.blocks.BlockShopController;
 import com.zundrel.currency.common.blocks.tiles.TileEntityShopController;
 
 public class ItemLinkingCard extends ItemBasic {
-	public ItemLinkingCard(String unlocalizedName)
-    {
-        super(unlocalizedName, 1);
-    }
-	
+	public ItemLinkingCard(String unlocalizedName) {
+		super(unlocalizedName, 1);
+	}
+
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
-	{
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (world.getBlockState(pos).getBlock() instanceof BlockShopController) {
 			if (player.getHeldItem(hand).hasTagCompound()) {
 				player.getHeldItem(hand).getTagCompound().setInteger("x", pos.getX());
@@ -42,11 +40,11 @@ public class ItemLinkingCard extends ItemBasic {
 		}
 		return EnumActionResult.FAIL;
 	}
-	
+
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		ItemStack stack = playerIn.getHeldItem(handIn);
-		
+
 		if (playerIn.isSneaking() && stack.hasTagCompound()) {
 			stack.getTagCompound().setBoolean("automatic", !stack.getTagCompound().getBoolean("automatic"));
 			if (worldIn.isRemote) {
@@ -54,17 +52,16 @@ public class ItemLinkingCard extends ItemBasic {
 			}
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
-		
+
 		return ActionResult.newResult(EnumActionResult.FAIL, stack);
 	};
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, World world,
-			List<String> tooltip, ITooltipFlag flagIn) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flagIn) {
 		if (stack.hasTagCompound()) {
 			BlockPos pos = new BlockPos(stack.getTagCompound().getInteger("x"), stack.getTagCompound().getInteger("y"), stack.getTagCompound().getInteger("z"));
-			
+
 			if (!world.isOutsideBuildHeight(pos) && world.getTileEntity(pos) instanceof TileEntityShopController) {
 				tooltip.add("Currently linked to a shop controller at: " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ());
 				tooltip.add("Shop Name: " + ((TileEntityShopController) world.getTileEntity(pos)).getName());
@@ -74,13 +71,12 @@ public class ItemLinkingCard extends ItemBasic {
 			tooltip.add("This makes it automatically set a new block's controller pos when placed.");
 		}
 	}
-	
+
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-	{
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		initTagCompound(stack);
 	}
-	
+
 	public static void initTagCompound(ItemStack stack) {
 		if (!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());

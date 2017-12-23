@@ -34,8 +34,8 @@ public class GuiShoppingList extends GuiScreen {
 	int guiY = (height - guiHeight) / 2;
 
 	EntityPlayer player;
-	
-	GuiButton clearList; 
+
+	GuiButton clearList;
 
 	public GuiShoppingList(EntityPlayer player) {
 		super();
@@ -60,22 +60,22 @@ public class GuiShoppingList extends GuiScreen {
 			GL11.glDisable(GL11.GL_BLEND);
 
 			int i = 0;
-			
+
 			float overallAmount = 0;
-			
+
 			for (ItemStack stack : cap.getCart()) {
 				if (!stack.isEmpty() && cap.getPrices().get(i) != null) {
 					fontRenderer.drawString(stack.getCount() + "x " + TextFormatting.GREEN + stack.getDisplayName() + TextFormatting.RESET + ", " + TextFormatting.GREEN + NumberFormat.getCurrencyInstance(Locale.US).format(cap.getPrices().get(i)) + TextFormatting.RESET + " each.", (width / 2) - (fontRenderer.getStringWidth(stack.getCount() + "x " + TextFormatting.GREEN + stack.getDisplayName() + TextFormatting.RESET + ", " + TextFormatting.GREEN + NumberFormat.getCurrencyInstance(Locale.US).format(cap.getPrices().get(i)) + TextFormatting.RESET + " each.") / 2), (height / 2) + (i * 10) - ((25 * 10) / 2), 0xFFFFFF);
 					overallAmount = overallAmount + (cap.getPrices().get(i) * stack.getCount());
-					
+
 					i++;
 				} else if (!stack.isEmpty() && cap.getPrices().get(i) == null) {
 					fontRenderer.drawString(stack.getCount() + "x " + TextFormatting.GREEN + stack.getDisplayName() + TextFormatting.RESET + ", " + TextFormatting.GREEN + "$0.00" + TextFormatting.RESET + " each.", (width / 2) - (fontRenderer.getStringWidth(stack.getCount() + "x " + TextFormatting.GREEN + stack.getDisplayName() + TextFormatting.RESET + ", " + TextFormatting.GREEN + "$0.00" + TextFormatting.RESET + " each.") / 2), (height / 2) + (i * 10) - ((25 * 10) / 2), 0xFFFFFF);
-					
+
 					i++;
 				}
 			}
-			
+
 			fontRenderer.drawString("Overall Amount: " + TextFormatting.GREEN + NumberFormat.getCurrencyInstance(Locale.US).format(overallAmount), (width / 2) - ((fontRenderer.getStringWidth("Overall Amount: " + TextFormatting.GREEN + NumberFormat.getCurrencyInstance(Locale.US).format(overallAmount))) / 2), (height / 2) + 130, 0xFFFFFF);
 		}
 
@@ -101,16 +101,16 @@ public class GuiShoppingList extends GuiScreen {
 		if (button.id == 0) {
 			System.out.println("HEH DUDE");
 			CartCapability entityData = player.getCapability(Currency.CART_DATA, null);
-			
+
 			entityData.setCart(NonNullList.withSize(entityData.getSizeInventory(), ItemStack.EMPTY), true);
 			List<Float> prices = Arrays.asList(new Float[25]);
 			for (int i = 0; i < prices.size(); i++) {
 				prices.set(i, (float) 0);
 			}
 			entityData.setPrices(prices, true);
-			
+
 			PacketDispatcher.sendToServer(new MessageSyncClearList(player));
-			
+
 			mc.displayGuiScreen(null);
 		}
 

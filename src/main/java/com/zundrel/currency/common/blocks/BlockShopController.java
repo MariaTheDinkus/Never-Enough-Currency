@@ -55,28 +55,28 @@ public class BlockShopController extends BlockBasic implements ITileEntityProvid
 			boolean receivedItems = false;
 
 			float overallAmount = 0;
-			
+
 			for (BlockPos stockPos : te.storageBlocks) {
 				if (worldIn.getBlockState(stockPos).getBlock() instanceof BlockStockCrate) {
 					TileEntityStockCrate crate = (TileEntityStockCrate) worldIn.getTileEntity(stockPos);
 
 					float amount = crate.getAmount();
 					EntityPlayer shopOwner = null;
-					
+
 					List<EntityPlayerMP> allPlayers = worldIn.getMinecraftServer().getPlayerList().getPlayers();
-				    for (EntityPlayerMP player : allPlayers) {
-				        if (player.getUniqueID().equals(crate.getOwnerUUID())) {
-				            shopOwner = player;
-				        }
-				    }
-					
+					for (EntityPlayerMP player : allPlayers) {
+						if (player.getUniqueID().equals(crate.getOwnerUUID())) {
+							shopOwner = player;
+						}
+					}
+
 					if (shopOwner != null && !crate.getType().isEmpty() && !cap.getCart().isEmpty()) {
 						for (int i = 0; i < cap.getSizeInventory(); i++) {
 							ItemStack cartStack = cap.getStackInSlot(i);
 							if (!cartStack.isEmpty() && cartStack.getItem() == crate.getType().getItem() && CurrencyUtils.getCurrencyNoWallet(playerIn) >= amount * cartStack.getCount()) {
 								ItemStack stockStack = ItemStack.EMPTY;
 								int stockSlot = 0;
-								
+
 								for (int j = 0; j < crate.getSizeInventory(); j++) {
 									if (!crate.getStackInSlot(j).isEmpty() && cartStack.getItem() == crate.getStackInSlot(j).getItem() && crate.getStackInSlot(j).getCount() >= cartStack.getCount()) {
 										stockStack = crate.getStackInSlot(j);
@@ -99,24 +99,24 @@ public class BlockShopController extends BlockBasic implements ITileEntityProvid
 									playerIn.addItemStackToInventory(cartStack);
 									receivedItems = true;
 									cap.setStackInSlot(i, ItemStack.EMPTY, 0, true);
-									
+
 									worldIn.playSound(null, pos, SoundHandler.register, SoundCategory.NEUTRAL, 1, 1);
 								}
 							}
 						}
 					} else if (shopOwner == null) {
-						
+
 					}
-					
+
 					if (shopOwner != null && receivedItems) {
-						
+
 					}
 				}
 			}
-			
+
 			if (!receivedItems) {
 				boolean cartEmpty = true;
-				
+
 				for (int i = 0; i < cap.getSizeInventory(); i++) {
 					ItemStack cartStack = cap.getStackInSlot(i);
 					if (!cartStack.isEmpty()) {
@@ -124,15 +124,16 @@ public class BlockShopController extends BlockBasic implements ITileEntityProvid
 						overallAmount = overallAmount + (cap.getPrices().get(i) * cartStack.getCount());
 					}
 				}
-				
+
 				if (!cartEmpty) {
 					playerIn.sendStatusMessage(new TextComponentString("Insufficient funds. You need at least " + TextFormatting.GREEN + NumberFormat.getCurrencyInstance(Locale.US).format(overallAmount) + TextFormatting.RESET + "."), true);
 				}
 			}
 		}
-//		} else if (playerIn.getUniqueID().equals(te.getOwnerUUID())) {
-//			playerIn.sendStatusMessage(new TextComponentString("You can't buy from your own shop!"), true);
-//		}
+		// } else if (playerIn.getUniqueID().equals(te.getOwnerUUID())) {
+		// playerIn.sendStatusMessage(new
+		// TextComponentString("You can't buy from your own shop!"), true);
+		// }
 
 		if (playerIn.isSneaking() && te.getOwnerUUID().equals(playerIn.getUniqueID())) {
 			if (worldIn.isRemote) {

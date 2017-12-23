@@ -4,13 +4,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import com.zundrel.currency.common.items.ItemMoneyBase;
-import com.zundrel.currency.common.items.ItemWallet;
-
-public class SlotSameItem extends Slot
-{
-	public SlotSameItem(IInventory inv, int index, int xPos, int yPos)
-	{
+public class SlotSameItem extends Slot {
+	public SlotSameItem(IInventory inv, int index, int xPos, int yPos) {
 		super(inv, index, xPos, yPos);
 	}
 
@@ -22,17 +17,16 @@ public class SlotSameItem extends Slot
 	 * Check if the stack is a valid item for this slot.
 	 */
 	@Override
-	public boolean isItemValid(ItemStack itemstack)
-	{
+	public boolean isItemValid(ItemStack itemstack) {
 		boolean isEmpty = true;
-		
+
 		for (int i = 0; i < this.inventory.getSizeInventory(); i++) {
 			if (!this.inventory.getStackInSlot(i).isEmpty()) {
 				isEmpty = false;
 				break;
 			}
 		}
-		
+
 		if (isEmpty) {
 			return true;
 		} else if (!itemstack.isEmpty()) {

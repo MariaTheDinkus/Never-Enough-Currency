@@ -17,36 +17,31 @@ import com.zundrel.currency.common.blocks.tiles.TileEntityDisplay;
 import com.zundrel.currency.common.handlers.KeybindHandler;
 import com.zundrel.currency.common.info.ModInfo;
 
-
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		
+
 	}
-	
+
 	@Override
 	public void init(FMLInitializationEvent event) {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDisplay.class, new TileEntityRenderDisplay());
-		
+
 		KeybindHandler.init();
 	}
-	
+
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		
+
 	}
-	
+
 	@Override
-	public EntityPlayer getPlayerEntity(MessageContext ctx)
-    {
-      return ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx);
-    }
-	
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx);
+	}
+
 	@Override
 	public void registerItemRenderer(Item i, int meta, String id) {
-		ModelLoader.setCustomModelResourceLocation(i, meta,
-				new ModelResourceLocation(ModInfo.MODID + ":"
-						+ id, "inventory"));
+		ModelLoader.setCustomModelResourceLocation(i, meta, new ModelResourceLocation(ModInfo.MODID + ":" + id, "inventory"));
 	}
 }

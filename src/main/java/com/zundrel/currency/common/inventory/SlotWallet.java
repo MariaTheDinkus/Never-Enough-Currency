@@ -7,10 +7,8 @@ import net.minecraft.item.ItemStack;
 import com.zundrel.currency.common.items.ItemMoneyBase;
 import com.zundrel.currency.common.items.ItemWallet;
 
-public class SlotWallet extends Slot
-{
-	public SlotWallet(IInventory inv, int index, int xPos, int yPos)
-	{
+public class SlotWallet extends Slot {
+	public SlotWallet(IInventory inv, int index, int xPos, int yPos) {
 		super(inv, index, xPos, yPos);
 	}
 
@@ -22,8 +20,7 @@ public class SlotWallet extends Slot
 	 * Check if the stack is a valid item for this slot.
 	 */
 	@Override
-	public boolean isItemValid(ItemStack itemstack)
-	{
+	public boolean isItemValid(ItemStack itemstack) {
 		// Everything returns true except an instance of our Item
 		return !(itemstack.getItem() instanceof ItemWallet) && itemstack.getItem() instanceof ItemMoneyBase;
 	}

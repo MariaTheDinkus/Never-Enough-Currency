@@ -9,43 +9,37 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.zundrel.currency.common.blocks.tiles.TileEntityShopController;
 
-public class MessageSyncController implements IMessage
-{
+public class MessageSyncController implements IMessage {
 	private String name;
 	private BlockPos pos;
 
-	public MessageSyncController()
-	{
+	public MessageSyncController() {
 	}
 
-	public MessageSyncController(String name, BlockPos pos)
-	{
+	public MessageSyncController(String name, BlockPos pos) {
 		this.name = name;
 		this.pos = pos;
 	}
 
-	public void fromBytes(ByteBuf buf)
-	{
+	@Override
+	public void fromBytes(ByteBuf buf) {
 		this.name = ByteBufUtils.readUTF8String(buf);
 		this.pos = new BlockPos(buf.readFloat(), buf.readFloat(), buf.readFloat());
 	}
 
-	public void toBytes(ByteBuf buf)
-	{
+	@Override
+	public void toBytes(ByteBuf buf) {
 		ByteBufUtils.writeUTF8String(buf, name);
 		buf.writeFloat(pos.getX());
 		buf.writeFloat(pos.getY());
 		buf.writeFloat(pos.getZ());
 	}
 
-	public static class Handler extends AbstractMessageHandler<MessageSyncController>
-	{
-		public IMessage handleClientMessage(EntityPlayer player, MessageSyncController message, MessageContext ctx)
-		{
-			if((player != null) && (message != null) && (ctx != null))
-			{
-				if(player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityShopController)
-				{
+	public static class Handler extends AbstractMessageHandler<MessageSyncController> {
+		@Override
+		public IMessage handleClientMessage(EntityPlayer player, MessageSyncController message, MessageContext ctx) {
+			if ((player != null) && (message != null) && (ctx != null)) {
+				if (player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityShopController) {
 					TileEntityShopController controller = (TileEntityShopController) player.getEntityWorld().getTileEntity(message.pos);
 					controller.setName(message.name);
 				}
@@ -54,12 +48,9 @@ public class MessageSyncController implements IMessage
 		}
 
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, MessageSyncController message, MessageContext ctx)
-		{
-			if((player != null) && (message != null) && (ctx != null))
-			{
-				if(player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityShopController)
-				{
+		public IMessage handleServerMessage(EntityPlayer player, MessageSyncController message, MessageContext ctx) {
+			if ((player != null) && (message != null) && (ctx != null)) {
+				if (player.getEntityWorld().getTileEntity(message.pos) instanceof TileEntityShopController) {
 					TileEntityShopController controller = (TileEntityShopController) player.getEntityWorld().getTileEntity(message.pos);
 					controller.setName(message.name);
 				}

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -17,13 +16,12 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import com.zundrel.currency.Currency;
-import com.zundrel.currency.common.blocks.BlockStockCrate;
 
 public class TileEntityShopController extends TileEntity implements ITickable {
-	private String			name;
-	private UUID			ownerUUID;
-	public Set<BlockPos>	linkedBlocks	= new HashSet<BlockPos>();
-	public Set<BlockPos>	storageBlocks	= new HashSet<BlockPos>();
+	private String name;
+	private UUID ownerUUID;
+	public Set<BlockPos> linkedBlocks = new HashSet<BlockPos>();
+	public Set<BlockPos> storageBlocks = new HashSet<BlockPos>();
 
 	@Override
 	public void validate() {
@@ -56,24 +54,26 @@ public class TileEntityShopController extends TileEntity implements ITickable {
 		// }
 
 		if (!this.world.isRemote) {
-//			for (BlockPos stockPos : storageBlocks) {
-//				TileEntityStockCrate crate = (TileEntityStockCrate) world.getTileEntity(stockPos);
-//
-//				for (ItemStack stack : crate.getInventory()) {
-//					if (!stack.isEmpty()) {
-//						System.out.println(stack.getDisplayName());
-//					}
-//				}
-//			}
+			// for (BlockPos stockPos : storageBlocks) {
+			// TileEntityStockCrate crate = (TileEntityStockCrate)
+			// world.getTileEntity(stockPos);
+			//
+			// for (ItemStack stack : crate.getInventory()) {
+			// if (!stack.isEmpty()) {
+			// System.out.println(stack.getDisplayName());
+			// }
+			// }
+			// }
 		}
 
-//		if (this.world.getTotalWorldTime() % 6000 == 0) {
-//			for (BlockPos pos : storageBlocks) {
-//				if (!(this.world.getBlockState(pos).getBlock() instanceof BlockStockCrate)) {
-//					storageBlocks.remove(pos);
-//				}
-//			}
-//		}
+		// if (this.world.getTotalWorldTime() % 6000 == 0) {
+		// for (BlockPos pos : storageBlocks) {
+		// if (!(this.world.getBlockState(pos).getBlock() instanceof
+		// BlockStockCrate)) {
+		// storageBlocks.remove(pos);
+		// }
+		// }
+		// }
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class TileEntityShopController extends TileEntity implements ITickable {
 		NBTTagList positions = compound.getTagList("linkedBlocks", Constants.NBT.TAG_COMPOUND);
 
 		for (int i = 0; i < positions.tagCount(); ++i) {
-			NBTTagCompound pos = (NBTTagCompound) positions.getCompoundTagAt(i);
+			NBTTagCompound pos = positions.getCompoundTagAt(i);
 
 			linkedBlocks.add(new BlockPos(pos.getInteger("x"), pos.getInteger("y"), pos.getInteger("z")));
 		}
@@ -134,7 +134,7 @@ public class TileEntityShopController extends TileEntity implements ITickable {
 		NBTTagList cratePositions = compound.getTagList("storageBlocks", Constants.NBT.TAG_COMPOUND);
 
 		for (int i = 0; i < cratePositions.tagCount(); ++i) {
-			NBTTagCompound pos = (NBTTagCompound) cratePositions.getCompoundTagAt(i);
+			NBTTagCompound pos = cratePositions.getCompoundTagAt(i);
 
 			storageBlocks.add(new BlockPos(pos.getInteger("x"), pos.getInteger("y"), pos.getInteger("z")));
 		}

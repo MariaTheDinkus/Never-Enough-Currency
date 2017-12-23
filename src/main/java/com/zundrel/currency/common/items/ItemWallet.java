@@ -19,14 +19,12 @@ import com.zundrel.currency.Currency;
 import com.zundrel.currency.common.inventory.InventoryItem;
 
 public class ItemWallet extends ItemBasic {
-	public ItemWallet(String unlocalizedName)
-    {
-        super(unlocalizedName, 1);
-    }
-	
+	public ItemWallet(String unlocalizedName) {
+		super(unlocalizedName, 1);
+	}
+
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
-	{
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (!worldIn.isRemote) {
 			if (!playerIn.isSneaking()) {
 				if (hand == EnumHand.MAIN_HAND) {
@@ -39,26 +37,25 @@ public class ItemWallet extends ItemBasic {
 		}
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, World worldIn,
-			List<String> tooltip, ITooltipFlag flagIn) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add("Extra storage for your money!");
-		
+
 		if (stack.hasTagCompound()) {
 			InventoryItem inventory = new InventoryItem(stack);
-			
+
 			float value = 0;
 			for (int i = 0; i < inventory.getSizeInventory(); i++) {
 				if (inventory.getStackInSlot(i) != ItemStack.EMPTY && inventory.getStackInSlot(i).getItem() instanceof ItemMoneyBase) {
 					value += ((ItemMoneyBase) inventory.getStackInSlot(i).getItem()).getValue() * inventory.getStackInSlot(i).getCount();
 				}
 			}
-			
+
 			tooltip.add("Currently storing: " + NumberFormat.getCurrencyInstance(Locale.US).format(value));
 		}
-		
+
 		tooltip.add(TextFormatting.BLUE + "Only holds currency.");
 	}
 }

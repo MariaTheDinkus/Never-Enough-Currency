@@ -17,29 +17,25 @@ import com.zundrel.currency.common.network.MessageSyncController;
 import com.zundrel.currency.common.network.PacketDispatcher;
 
 @SideOnly(Side.CLIENT)
-public class GuiShopController extends GuiScreen
-{
+public class GuiShopController extends GuiScreen {
 	GuiTextField textField;
 
 	BlockPos pos;
 	World world;
 
-	public GuiShopController(BlockPos pos, World world)
-	{
+	public GuiShopController(BlockPos pos, World world) {
 		super();
 		this.pos = pos;
 		this.world = world;
 	}
 
 	@Override
-	public boolean doesGuiPauseGame()
-	{
+	public boolean doesGuiPauseGame() {
 		return false;
 	}
 
 	@Override
-	public void drawScreen(int x, int y, float ticks)
-	{
+	public void drawScreen(int x, int y, float ticks) {
 		GL11.glEnable(GL11.GL_BLEND);
 		drawDefaultBackground();
 		GL11.glDisable(GL11.GL_BLEND);
@@ -52,8 +48,7 @@ public class GuiShopController extends GuiScreen
 	}
 
 	@Override
-	public void initGui()
-	{
+	public void initGui() {
 		buttonList.clear();
 		textField = new GuiTextField(0, fontRenderer, ((width) / 2) - (88 / 2), ((height) / 2) - (15 / 2), 88, 15);
 		textField.setMaxStringLength(60);
@@ -62,12 +57,9 @@ public class GuiShopController extends GuiScreen
 	}
 
 	@Override
-	public void onGuiClosed()
-	{
-		if(!textField.getText().isEmpty())
-		{
-			if(world.getTileEntity(pos) instanceof TileEntityShopController)
-			{
+	public void onGuiClosed() {
+		if (!textField.getText().isEmpty()) {
+			if (world.getTileEntity(pos) instanceof TileEntityShopController) {
 				TileEntityShopController controller = (TileEntityShopController) world.getTileEntity(pos);
 				controller.setName(textField.getText());
 				PacketDispatcher.sendToServer(new MessageSyncController(textField.getText(), pos));
@@ -77,50 +69,38 @@ public class GuiShopController extends GuiScreen
 	}
 
 	@Override
-	protected void keyTyped(char c, int key)
-	{
-		if(key == Keyboard.KEY_E && this.textField.isFocused() == false)
-		{
+	protected void keyTyped(char c, int key) {
+		if (key == Keyboard.KEY_E && this.textField.isFocused() == false) {
 			mc.displayGuiScreen(null);
 		}
 
-		if(key == Keyboard.KEY_RETURN && this.textField.isFocused())
-		{
+		if (key == Keyboard.KEY_RETURN && this.textField.isFocused()) {
 			mc.displayGuiScreen(null);
 		}
 
-		if(this.textField.isFocused())
-		{
+		if (this.textField.isFocused()) {
 			textField.textboxKeyTyped(c, key);
 		}
 
-		try
-		{
+		try {
 			super.keyTyped(c, key);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int btn)
-	{
-		try
-		{
+	protected void mouseClicked(int x, int y, int btn) {
+		try {
 			super.mouseClicked(x, y, btn);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		this.textField.mouseClicked(x, y, btn);
 	}
 
 	@Override
-	public void updateScreen()
-	{
+	public void updateScreen() {
 		super.updateScreen();
 		this.textField.updateCursorCounter();
 	}

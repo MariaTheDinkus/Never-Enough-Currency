@@ -172,7 +172,7 @@ public class CartCapability implements ICapabilitySerializable<NBTTagCompound> {
 		NBTTagList items = compound.getTagList("ItemInventory", Constants.NBT.TAG_COMPOUND);
 
 		for (int i = 0; i < items.tagCount(); ++i) {
-			NBTTagCompound item = (NBTTagCompound) items.getCompoundTagAt(i);
+			NBTTagCompound item = items.getCompoundTagAt(i);
 			int slot = item.getInteger("Slot");
 
 			if (slot >= 0 && slot < getSizeInventory()) {
@@ -189,7 +189,7 @@ public class CartCapability implements ICapabilitySerializable<NBTTagCompound> {
 		NBTTagList pricesList = compound.getTagList("Prices", Constants.NBT.TAG_COMPOUND);
 		if (prices != null && !prices.isEmpty()) {
 			for (int i = 0; i < pricesList.tagCount(); ++i) {
-				NBTTagCompound price = (NBTTagCompound) pricesList.getCompoundTagAt(i);
+				NBTTagCompound price = pricesList.getCompoundTagAt(i);
 				int slot = price.getInteger("Slot");
 
 				if (slot >= 0 && slot < getSizeInventory()) {
