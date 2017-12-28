@@ -1,15 +1,15 @@
 [
 {
-  "modid": "currency",
-  "name": "Never Enough Currency",
-  "description": "A mod containing currency similar to USD. It has ATMs, a Shop System, Wallets, and more!",
+  "modid": "ImmersiveEngineering",
+  "name": "Immersive Engineering",
+  "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["Zundrel"],
-  "credits": "",
-  "logoFile": "",
+  "authorList": ["BluSunrize","Damien A.W. Hazard"],
+  "credits": "TTFTCUTS for the catenary rendering code",
+  "logoFile": "assets/immersiveengineering/logo.png",
   "screenshots": [],
   "dependencies": []
 }

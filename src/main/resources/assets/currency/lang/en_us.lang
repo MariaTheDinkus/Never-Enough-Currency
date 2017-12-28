@@ -1,32 +1,15 @@
 ﻿# CREATIVE TAB
 itemGroup.currency=Currency
 
-# BLOCKS
-tile.atm.name=ATM
-tile.shop_controller.name=Shop Controller
-tile.shelf.name=Shop Shelf
-tile.table.name=Shop Table
-tile.stock_crate.name=Stock Crate
-
 # ITEMS
-item.wallet.name=Wallet
-item.shopping_list.name=Shopping List
-item.linking_card.name=Controller Linker
-
 item.penny.name=Penny
 item.nickel.name=Nickel
 item.dime.name=Dime
 item.quarter.name=Quarter
 
-item.dollar_bill.name=1 Dollar Bill
-item.five_dollar_bill.name=5 Dollar Bill
-item.ten_dollar_bill.name=10 Dollar Bill
-item.twenty_dollar_bill.name=20 Dollar Bill
-item.fifty_dollar_bill.name=50 Dollar Bill
-item.hundred_dollar_bill.name=100 Dollar Bill
-
-currency.name.waila=Name:
-currency.nameshop.waila=Shop Name:
-currency.ownername.waila=Owner Name:
-currency.account.waila=Account Balance:
-currency.linked.waila=Linked to:
+item.dollarBill.name=1 Dollar Bill
+item.fiveDollarBill.name=5 Dollar Bill
+item.tenDollarBill.name=10 Dollar Bill
+item.twentyDollarBill.name=20 Dollar Bill
+item.fiftyDollarBill.name=50 Dollar Bill
+item.hundredDollarBill.name=100 Dollar Bill
